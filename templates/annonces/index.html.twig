@@ -20,6 +20,7 @@
             </tr>
         </thead>
         <tbody>
+        <h3>Pour rechercher une annonce, appuyez sur les touches Ctrl + f</h3>
         {% for annonce in annonces %}
             <tr class="tabAnnonces" id="tabAnnonces">
                 {% if is_granted('ROLE_ADMIN') %}
@@ -32,8 +33,10 @@
                 <td>{{ annonce.localisation }}</td>
                 <td class="actionButtons" id="actionButtons">
                     <a href="{{ path('app_annonces_show', {'id': annonce.id}) }}">show</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if (annonce.iduser.id == app.user.id) or (is_granted('ROLE_ADMIN')) %}
                     <a href="{{ path('app_annonces_edit', {'id': annonce.id}) }}">edit</a>
+                    {% endif %}
                     {% endif %}
                 </td>
             </tr>

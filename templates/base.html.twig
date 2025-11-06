@@ -17,11 +17,11 @@
     <nav class="navbar">
         <div class="navbar-brand">L’AUTREBONCOIN</div>
         <div class="navbar-links">
+            <a href="{{ path('app_annonces_index') }}">Annonces</a>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_categorie_index') }}">Categorires</a>
                 {% endif %}
-                <a href="{{ path('app_annonces_index') }}">Annonces</a>
                 <a href="{{ path('app_annonces_me') }}">Mes Annonces</a>
                 <a href="{{ path('app_logout') }}">Logout</a>
             {% else %}
