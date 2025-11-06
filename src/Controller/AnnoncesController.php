@@ -22,6 +22,22 @@ final class AnnoncesController extends AbstractController
         ]);
     }
 
+
+    #[Route('/new', name: 'app_annonces_me', methods: ['GET'])]
+    public function me(AnnoncesRepository $annoncesRepository): Response
+    {
+        dump($this->getUser());
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_annonces_index');
+        }
+        return $this->render('annonces/me.html.twig', [
+            'annonces' => $annoncesRepository->findBy(array('id_user' => $this->getUser()))
+        ]);
+    }
+
+
+
+
     #[Route('/new', name: 'app_annonces_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -30,6 +46,7 @@ final class AnnoncesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $annonce->setIdUser($this->getUser());
             $entityManager->persist($annonce);
             $entityManager->flush();
 
@@ -53,6 +70,11 @@ final class AnnoncesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_annonces_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonces $annonce, EntityManagerInterface $entityManager): Response
     {
+
+        if ($annonce->getIdUser() !== $this->getUser()) {
+            return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(AnnoncesType::class, $annonce);
         $form->handleRequest($request);
 
@@ -71,6 +93,11 @@ final class AnnoncesController extends AbstractController
     #[Route('/{id}', name: 'app_annonces_delete', methods: ['POST'])]
     public function delete(Request $request, Annonces $annonce, EntityManagerInterface $entityManager): Response
     {
+
+        if ($annonce->getIdUser() !== $this->getUser()) {
+            return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($annonce);
             $entityManager->flush();

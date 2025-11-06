@@ -20,13 +20,6 @@ class AnnoncesType extends AbstractType
             ->add('prix')
             ->add('images')
             ->add('localisation')
-            ->add('id_user', EntityType::class, [
-                'class' => User::class,
-                'attr' => ['readonly' => true, 'hidden' => true],
-                'data' => $options['data']->getIdUser(),
-                'choice_label' => 'id',
-                'label' => false,
-            ])
             ->add('id_categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'data' => $options['data']->getIdCategorie(),

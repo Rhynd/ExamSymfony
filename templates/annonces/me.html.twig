@@ -10,9 +10,6 @@
     <table class="table">
         <thead>
             <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>Id</th>
-                {% endif %}
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Prix</th>
@@ -24,9 +21,6 @@
         <tbody>
         {% for annonce in annonces %}
             <tr class="tabAnnonces" id="tabAnnonces">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <td>{{ annonce.id }}</td>
-                {% endif %}
                 <td>{{ annonce.titre }}</td>
                 <td>{{ annonce.description }}</td>
                 <td>{{ annonce.prix }}</td>
