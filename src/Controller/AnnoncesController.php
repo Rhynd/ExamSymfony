@@ -23,7 +23,7 @@ final class AnnoncesController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_annonces_me', methods: ['GET'])]
+    #[Route('/me', name: 'app_annonces_me', methods: ['GET'])]
     public function me(AnnoncesRepository $annoncesRepository): Response
     {
         dump($this->getUser());
@@ -50,7 +50,7 @@ final class AnnoncesController extends AbstractController
             $entityManager->persist($annonce);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('app_annonces_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('annonces/new.html.twig', [

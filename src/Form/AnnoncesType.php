@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class AnnoncesType extends AbstractType
 {
@@ -18,7 +20,18 @@ class AnnoncesType extends AbstractType
             ->add('titre')
             ->add('description')
             ->add('prix')
-            ->add('images')
+            ->add('images', FileType::class, [
+                'label' => 'Image (JPG, PNG file)',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File(
+                        maxSize: '3024k',
+                        extensions: ['jpg', 'jpeg', 'png'],
+                        extensionsMessage: 'Please upload a valid image file (JPG, JPEG, PNG).'
+                    )
+                ]
+            ])
             ->add('localisation')
             ->add('id_categorie', EntityType::class, [
                 'class' => Categorie::class,
