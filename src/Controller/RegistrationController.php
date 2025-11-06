@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
 
 
 
-    #[Route('/createuser', name: 'creat_user')]
+    #[Route('/createuser', name: 'create_user')]
     public function createUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
